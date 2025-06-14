@@ -157,7 +157,7 @@
         margin-bottom: 24px;
       }
     }
-    /* Task item, subtasks, modal, etc: keep your previous styles here */
+    /* tasks, modals etc*/
     .task-item {
       opacity: 0;
       transform: translateY(20px) scale(0.98);
@@ -447,7 +447,7 @@
   </div>
   <audio id="alarm-sound" src="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg" preload="auto"></audio>
   <script>
-    // -- Alarm Dropdowns --
+    // Alarm dropdowns
     function populateDropdown(id, from, to, pad=false) {
       const sel = document.getElementById(id);
       sel.innerHTML = '';
@@ -459,7 +459,7 @@
     populateDropdown('alarm-hour', 1, 12);
     populateDropdown('alarm-minute', 0, 59, true);
 
-    // --- To-Do and Controls Logic ---
+    // to do & controls
     const taskList = document.getElementById('task-list');
     const emptyState = document.getElementById('empty-state');
     const titleInput = document.getElementById('task-title');
@@ -527,7 +527,7 @@
       setTimeout(() => li.classList.remove('edit-highlight'), 700);
     }
 
-    // --- Modal helpers for editing tasks and descriptions ---
+    // Modal helpers
     function showEditModal(task, cb, focusDesc) {
       const modalBg = document.createElement('div');
       modalBg.className = 'modal-bg' + (document.documentElement.classList.contains('dark') ? ' dark' : '');
