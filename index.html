@@ -26,23 +26,22 @@
       border-radius: 4px;
     }
     #right-sidebar {
-      position: fixed;
-      top: 48px;
-      right: 32px;
-      height: auto;
-      min-height: 500px;
-      max-height: 86vh;
-      width: 340px;
-      background: #f8f9fa;
+      margin: 0 auto;
+      width: 100%;
+      max-width: 500px;
+      min-width: unset;
+      border-radius: 18px;
+      position: static;
+      top: unset; right: unset;
       box-shadow: 0 6px 32px 0 rgba(60,72,85,.08), 0 1.5px 6px 0 rgba(60,72,85,.04);
-      border-radius: 22px;
-      z-index: 50;
+      border: 1.5px solid #e0e5ee;
+      z-index: 10;
       padding: 28px 18px 26px 26px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       transition: background 0.3s;
-      border: 1.5px solid #e0e5ee;
+      background: #f8f9fa;
     }
     .dark #right-sidebar {
       background: #181f2a;
@@ -73,7 +72,40 @@
     }
     @media (min-width: 1100px) {
       .main-app-layout {
+        max-width: 700px;
         margin-right: 400px !important;
+      }
+      #right-sidebar {
+        position: fixed;
+        right: 32px;
+        top: 48px;
+        width: 340px;
+        max-width: 340px;
+        min-height: 500px;
+        max-height: 86vh;
+        border-radius: 22px;
+      }
+    }
+    @media (max-width: 700px) {
+      .main-app-layout {
+        padding: 0.5rem;
+      }
+      #right-sidebar {
+        padding: 16px 8px 16px 8px;
+      }
+    }
+    @media (max-width: 500px) {
+      .main-app-layout,
+      #right-sidebar {
+        padding: 0.5rem 0.25rem;
+        border-radius: 0.75rem;
+        box-shadow: none;
+      }
+      .main-app-layout {
+        margin: 0 0 16px 0 !important;
+      }
+      #right-sidebar {
+        margin-bottom: 24px;
       }
     }
     .dark .task-completed-deepblue {
@@ -90,10 +122,109 @@
       text-decoration: line-through 2px !important;
       opacity: 1 !important;
     }
+
+    /* Task Animations */
+    .task-item {
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+      transition: opacity 0.4s, transform 0.4s, background 0.4s, border 0.3s;
+    }
+    .task-item.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .task-item.removing {
+      opacity: 0;
+      transform: translateX(-60px) scale(0.96);
+      transition: opacity 0.35s, transform 0.35s, background 0.3s;
+    }
+    .task-item.edit-highlight {
+      background: #c7d2fe !important;
+      transition: background 0.7s;
+    }
+    .dark .task-item.edit-highlight {
+      background: #3730a3 !important;
+    }
+    .overdue-icon {
+      color: #ef4444;
+      font-size: 1.2em;
+      margin-right: 0.45em;
+      vertical-align: middle;
+      display: inline-block;
+    }
+    .dark .overdue-icon {
+      color: #f87171;
+    }
+    .task-overdue {
+      border: 2px solid #ef4444 !important;
+    }
+    /* Empty state illustration for mobile */
+    #empty-state img {
+      width: 48px;
+      height: 48px;
+    }
+    #empty-state .text-xl {
+      font-size: 1.1rem;
+    }
+    /* Responsive form controls */
+    .main-app-layout input,
+    .main-app-layout select,
+    .main-app-layout button,
+    #right-sidebar input,
+    #right-sidebar select,
+    #right-sidebar button {
+      font-size: 1rem;
+      min-height: 2.5rem;
+    }
+    @media (max-width: 700px) {
+      .main-app-layout input,
+      .main-app-layout select,
+      .main-app-layout button {
+        font-size: 1.1rem;
+        min-height: 2.7rem;
+      }
+      #right-sidebar input,
+      #right-sidebar select,
+      #right-sidebar button {
+        font-size: 1.1rem;
+        min-height: 2.7rem;
+      }
+      .main-app-layout .flex.flex-col.sm\:flex-row.gap-2.mb-4,
+      .main-app-layout .flex.justify-between.gap-2.mb-4 {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+      }
+      .main-app-layout button,
+      .main-app-layout select,
+      .main-app-layout input {
+        width: 100% !important;
+        margin-bottom: 0.5rem;
+      }
+      .main-app-layout input[type="date"] {
+        min-width: 0;
+      }
+    }
+    .main-app-layout button,
+    #right-sidebar button {
+      min-width: 44px;
+      min-height: 44px;
+      touch-action: manipulation;
+    }
+    /* Fix for task add button height alignment */
+    #add-task {
+      height: 44px;
+      min-width: 64px;
+      font-size: 1rem;
+      line-height: 1.5;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   </style>
 </head>
-<body class="bg-gradient-to-br from-blue-100 to-purple-200 dark:from-gray-900 dark:to-gray-800 min-h-screen py-10 transition-colors duration-300">
-  <div class="main-app-layout max-w-2xl mx-auto p-6 shadow-lg rounded-2xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white" style="margin-right:400px;">
+<body class="bg-gradient-to-br from-blue-100 to-purple-200 dark:from-gray-900 dark:to-gray-800 min-h-screen py-3 sm:py-10 transition-colors duration-300">
+  <div class="main-app-layout max-w-2xl mx-auto p-6 shadow-lg rounded-2xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-4xl font-extrabold flex items-center" style="font-family:Montserrat,sans-serif;">
         <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4dd.png" alt="To-Do" style="width:40px;height:40px;margin-right:10px">
@@ -102,7 +233,7 @@
       <button id="dark-toggle" class="px-3 py-1 rounded bg-gray-200 dark:bg-gray-800 text-sm text-black dark:text-white">Toggle Dark Mode</button>
     </div>
 
-    <div class="flex flex-col sm:flex-row gap-2 mb-4">
+    <div class="flex flex-col sm:flex-row gap-2 mb-4 items-center">
       <input id="task-title" type="text" placeholder="Task title" class="border border-gray-300 px-3 py-2 rounded w-full bg-white dark:bg-gray-800 text-black dark:text-white placeholder-gray-500">
       <input id="task-date" type="date" class="border border-gray-300 px-3 py-2 rounded bg-white dark:bg-gray-800 text-black dark:text-white">
       <select id="task-priority" class="border border-gray-300 px-3 py-2 rounded bg-white dark:bg-gray-800 text-black dark:text-white">
@@ -115,7 +246,9 @@
         <option value="daily">Daily</option>
         <option value="weekly">Weekly</option>
       </select>
-      <button id="add-task" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Add</button>
+      <button id="add-task"
+        class="bg-blue-600 hover:bg-blue-700 text-white px-6 rounded transition-colors duration-150"
+      >Add</button>
     </div>
 
     <div class="flex justify-between gap-2 mb-4">
@@ -129,6 +262,13 @@
     </div>
 
     <ul id="task-list" class="space-y-3 custom-scrollbar max-h-[400px] overflow-y-auto"></ul>
+    <div id="empty-state" class="flex flex-col items-center justify-center my-12 text-center">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f60a.png" alt="Relax" class="w-14 h-14 mb-3 select-none" draggable="false" />
+      <div class="text-xl font-semibold mb-1 text-gray-700 dark:text-gray-300">All done!</div>
+      <div class="text-gray-500 dark:text-gray-400 text-base max-w-xs">
+        You have no tasks left.<br>Enjoy your free time, or add something new!
+      </div>
+    </div>
   </div>
 
   <!-- Right Sidebar -->
@@ -184,6 +324,7 @@
 
     // To do app js
     const taskList = document.getElementById('task-list');
+    const emptyState = document.getElementById('empty-state');
     const titleInput = document.getElementById('task-title');
     const dateInput = document.getElementById('task-date');
     const priorityInput = document.getElementById('task-priority');
@@ -210,27 +351,74 @@
       }[priority] || '';
     }
 
-    function renderTasks() {
+    // Animation helpers
+    function animateAddTask(li) {
+      requestAnimationFrame(() => {
+        li.classList.add('show');
+      });
+    }
+    function animateRemoveTask(li, cb) {
+      li.classList.remove('show');
+      li.classList.add('removing');
+      setTimeout(() => {
+        cb();
+      }, 350);
+    }
+    function animateEditTask(li) {
+      li.classList.add('edit-highlight');
+      setTimeout(() => {
+        li.classList.remove('edit-highlight');
+      }, 700);
+    }
+
+    function renderTasks(cb) {
       taskList.innerHTML = '';
       const filterP = filterPriority.value;
       const filterD = filterDate.value;
+      const now = dayjs().startOf('day');
 
-      tasks.forEach(task => {
-        if ((filterP !== 'all' && task.priority !== filterP) ||
-            (filterD && task.dueDate !== filterD)) return;
+      // Filter tasks
+      const filteredTasks = tasks.filter(task =>
+        (filterP === 'all' || task.priority === filterP) &&
+        (!filterD || task.dueDate === filterD)
+      );
 
+      if (filteredTasks.length === 0) {
+        emptyState.classList.remove('hidden');
+      } else {
+        emptyState.classList.add('hidden');
+      }
+
+      filteredTasks.forEach(task => {
         const li = document.createElement('li');
         let isDark = document.documentElement.classList.contains('dark');
+        li.className = 'task-item flex justify-between items-start p-3 border rounded-xl shadow-sm transition-all';
+
+        // Overdue logic
+        let isOverdue = false;
+        if (!task.completed && task.dueDate && dayjs(task.dueDate).isBefore(now, 'day')) {
+          isOverdue = true;
+          li.classList.add('task-overdue');
+        }
         if (task.completed && isDark) {
-          li.className = 'flex justify-between items-start p-3 border rounded-xl shadow-sm task-completed-deepblue';
+          li.classList.add('task-completed-deepblue');
         } else if (task.completed) {
-          li.className = 'flex justify-between items-start p-3 border rounded-xl shadow-sm bg-green-100 task-completed-deepblue';
+          li.classList.add('bg-green-100', 'task-completed-deepblue');
         } else {
-          li.className = 'flex justify-between items-start p-3 border rounded-xl shadow-sm bg-gray-50 dark:bg-gray-700';
+          li.classList.add('bg-gray-50', 'dark:bg-gray-700');
         }
 
         const left = document.createElement('div');
         left.className = 'flex items-center gap-3 flex-wrap';
+
+        // Overdue icon in the flow!
+        if (isOverdue) {
+          const icon = document.createElement('span');
+          icon.className = 'overdue-icon';
+          icon.title = 'Overdue';
+          icon.innerHTML = '⚠️';
+          left.appendChild(icon);
+        }
 
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
@@ -273,7 +461,9 @@
             task.dueDate = newDate;
             task.priority = newPriority;
             saveTasks();
-            renderTasks();
+            renderTasks(() => {
+              animateEditTask(li);
+            });
           }
         };
 
@@ -281,16 +471,22 @@
         delBtn.textContent = 'Delete';
         delBtn.className = 'bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 rounded';
         delBtn.onclick = () => {
-          tasks = tasks.filter(t => t.id !== task.id);
-          saveTasks();
-          renderTasks();
+          animateRemoveTask(li, () => {
+            tasks = tasks.filter(t => t.id !== task.id);
+            saveTasks();
+            renderTasks();
+          });
         };
 
         left.append(checkbox, span, dateSpan, priorityBadge);
         buttonGroup.append(editBtn, delBtn);
         li.append(left, buttonGroup);
+
         taskList.appendChild(li);
+        animateAddTask(li);
       });
+
+      if (cb) cb();
     }
 
     addBtn.onclick = () => {
