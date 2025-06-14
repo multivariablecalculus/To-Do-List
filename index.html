@@ -170,7 +170,7 @@
   <audio id="alarm-sound" src="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg" preload="auto"></audio>
 
   <script>
-    // --- Alarm Dropdowns ---
+    // Alarm Drops
     function populateDropdown(id, from, to, pad=false) {
       const sel = document.getElementById(id);
       sel.innerHTML = '';
@@ -182,7 +182,7 @@
     populateDropdown('alarm-hour', 1, 12);
     populateDropdown('alarm-minute', 0, 59, true);
 
-    // --- To-Do App JS ---
+    // To do app js
     const taskList = document.getElementById('task-list');
     const titleInput = document.getElementById('task-title');
     const dateInput = document.getElementById('task-date');
@@ -365,12 +365,12 @@
     setInterval(checkAlarms, 60 * 1000);
     renderTasks();
 
-    // --- Right Sidebar Clock & Alarm JS ---
+    // Right sidebar
     function pad(num) { return num.toString().padStart(2, '0'); }
     function formatDateTimeLocal(dt) {
       if (!dt) return '';
       const date = new Date(dt);
-      // CHANGED: dd-mm-yyyy format
+
       return (
         `${pad(date.getDate())}-${pad(date.getMonth() + 1)}-${date.getFullYear()} ` +
         `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`
@@ -436,7 +436,7 @@
             <button class="bg-red-500 hover:bg-red-600 text-white text-xs px-2 py-1 rounded delete-alarm-btn">Delete</button>
           </div>
         `;
-        // Edit
+
         li.querySelector('.edit-alarm-btn').onclick = () => {
           const dt = new Date(alarm.datetime);
           setAlarmEditFields(dt);
@@ -445,7 +445,7 @@
           alarmSaveBtn.textContent = "Update Alarm";
           alarmCancelBtn.classList.remove('hidden');
         };
-        // Delete
+
         li.querySelector('.delete-alarm-btn').onclick = () => {
           alarms.splice(idx, 1);
           saveAlarms();
