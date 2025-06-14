@@ -14,9 +14,66 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    input:focus, button:focus, select:focus {
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+    .main-app-layout {
+      max-width: 660px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    @media (max-width: 900px) {
+      .main-app-layout {
+        max-width: 99vw;
+      }
+    }
+    .main-controls-card {
+      background: #f3f4f6;
+      border-radius: 0.85rem;
+      padding: 1.4rem 1.3rem 1.2rem 1.3rem;
+      margin-bottom: 2.2rem;
+      box-shadow: 0 2px 12px 0 rgba(50,60,70,0.04);
+    }
+    .dark .main-controls-card {
+      background: #1e2538;
+    }
+    @media (max-width: 700px) {
+      .main-controls-card {
+        padding: 1rem 0.5rem 1.1rem 0.5rem;
+      }
+    }
+    .controls-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.1rem;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 900px) {
+      .controls-row {
+        flex-direction: column;
+        gap: 0.7rem;
+        margin-bottom: 1.1rem;
+      }
+    }
+    .controls-row > * {
+      min-width: 0;
+    }
+    .add-task-row {
+      border-top: 1px solid #e5e7eb;
+      margin-top: 0.8rem;
+      padding-top: 1.2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 900px) {
+      .add-task-row {
+        flex-direction: column;
+        gap: 0.7rem;
+        padding-top: 0.8rem;
+      }
+    }
+    .dark select, .dark input[type="date"], .dark input[type="text"] {
+      background: #222b38 !important;
+      color: #e9e9ff !important;
+      border-color: #334155 !important;
     }
     .custom-scrollbar::-webkit-scrollbar {
       width: 8px;
@@ -86,14 +143,6 @@
         border-radius: 22px;
       }
     }
-    @media (max-width: 700px) {
-      .main-app-layout {
-        padding: 0.5rem;
-      }
-      #right-sidebar {
-        padding: 16px 8px 16px 8px;
-      }
-    }
     @media (max-width: 500px) {
       .main-app-layout,
       #right-sidebar {
@@ -108,22 +157,7 @@
         margin-bottom: 24px;
       }
     }
-    .dark .task-completed-deepblue {
-      background-color: #102542 !important;
-      color: #c7d0e5 !important;
-    }
-    .dark .task-completed-deepblue .completed-text {
-      color: #e0e6ed !important;
-      text-decoration: line-through 2px !important;
-      opacity: 1 !important;
-    }
-    .task-completed-deepblue .completed-text {
-      color: #48618a !important;
-      text-decoration: line-through 2px !important;
-      opacity: 1 !important;
-    }
-
-    /* Task Animations */
+    /* Task item, subtasks, modal, etc: keep your previous styles here */
     .task-item {
       opacity: 0;
       transform: translateY(20px) scale(0.98);
@@ -158,110 +192,216 @@
     .task-overdue {
       border: 2px solid #ef4444 !important;
     }
-    /* Empty state illustration for mobile */
-    #empty-state img {
-      width: 48px;
-      height: 48px;
+    .task-desc {
+      font-size: 0.97em;
+      color: #3855d4;
+      margin-top: 0.35em;
+      margin-bottom: 0.15em;
+      white-space: pre-line;
+      word-break: break-word;
+      cursor: pointer;
+      opacity: 0.88;
+      transition: color 0.2s, opacity 0.2s;
     }
-    #empty-state .text-xl {
-      font-size: 1.1rem;
+    .task-desc-empty {
+      color: #cbd5e1;
+      font-style: italic;
+      opacity: 0.7;
+      cursor: pointer;
+      user-select: none;
     }
-    /* Responsive form controls */
-    .main-app-layout input,
-    .main-app-layout select,
-    .main-app-layout button,
-    #right-sidebar input,
-    #right-sidebar select,
-    #right-sidebar button {
-      font-size: 1rem;
-      min-height: 2.5rem;
+    .dark .task-desc-empty {
+      color: #344669;
     }
-    @media (max-width: 700px) {
-      .main-app-layout input,
-      .main-app-layout select,
-      .main-app-layout button {
-        font-size: 1.1rem;
-        min-height: 2.7rem;
-      }
-      #right-sidebar input,
-      #right-sidebar select,
-      #right-sidebar button {
-        font-size: 1.1rem;
-        min-height: 2.7rem;
-      }
-      .main-app-layout .flex.flex-col.sm\:flex-row.gap-2.mb-4,
-      .main-app-layout .flex.justify-between.gap-2.mb-4 {
-        flex-direction: column !important;
-        gap: 0.5rem !important;
-      }
-      .main-app-layout button,
-      .main-app-layout select,
-      .main-app-layout input {
-        width: 100% !important;
-        margin-bottom: 0.5rem;
-      }
-      .main-app-layout input[type="date"] {
-        min-width: 0;
-      }
+    .dark .task-desc {
+      color: #b3bed7;
     }
-    .main-app-layout button,
-    #right-sidebar button {
-      min-width: 44px;
-      min-height: 44px;
-      touch-action: manipulation;
+    .dark .task-completed-teal {
+    background-color: #02344a !important;
     }
-    /* Fix for task add button height alignment */
-    #add-task {
-      height: 44px;
-      min-width: 64px;
-      font-size: 1rem;
-      line-height: 1.5;
-      padding: 0 1.5rem;
+    .subtasks-list {
+      margin-top: 0.2em;
+      margin-bottom: 0.25em;
+      padding-left: 1.4em;
+      list-style: none;
+    }
+    .subtasks-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.6em;
+      font-size: 0.98em;
+      margin-bottom: 0.15em;
+      word-break: break-word;
+    }
+    .subtask-completed {
+      text-decoration: line-through;
+      opacity: 0.5;
+    }
+    .add-subtask-btn {
+      color: #2563eb;
+      background: none;
+      border: none;
+      padding: 0 0.4em;
+      font-size: 0.96em;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 0.14s;
+      margin-left: 1.1em;
+      margin-bottom: 0.2em;
+    }
+    .add-subtask-btn:hover {
+      color: #1d4ed8;
+      text-decoration: underline;
+    }
+    .subtask-delete-btn {
+      color: #e11d48;
+      background: none;
+      border: none;
+      font-size: 1em;
+      padding: 0 0.2em;
+      cursor: pointer;
+      opacity: 0.7;
+      margin-left: 0.2em;
+    }
+    .subtask-delete-btn:hover {
+      color: #be123c;
+      opacity: 1;
+    }
+    .dark .add-subtask-btn {
+      color: #60a5fa;
+    }
+    .dark .add-subtask-btn:hover {
+      color: #3b82f6;
+    }
+    .dark .subtask-delete-btn {
+      color: #f472b6;
+    }
+    .dark .subtask-delete-btn:hover {
+      color: #db2777;
+    }
+    .modal-bg {
+      position: fixed;
+      z-index: 1000;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(16,18,28,0.47);
       display: flex;
       align-items: center;
       justify-content: center;
     }
+    .modal-card {
+      background: #fff;
+      color: #1e293b;
+      border-radius: 1rem;
+      padding: 2rem 1.4rem 1.4rem 1.4rem;
+      max-width: 95vw;
+      width: 360px;
+      box-shadow: 0 8px 36px 0 rgba(0,0,0,0.19);
+      font-family: inherit;
+    }
+    .dark .modal-card {
+      background: #162032;
+      color: #f1f5fa;
+    }
+    .modal-card label {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 0.3em;
+      display: block;
+    }
+    .modal-card input, .modal-card select, .modal-card textarea {
+      width: 100%;
+      margin-bottom: 0.8em;
+      border-radius: 0.5em;
+      border: 1px solid #cbd5e1;
+      padding: 0.7em 0.8em;
+      font-size: 1rem;
+      background: #f8fafc;
+      color: #22223b;
+    }
+    .dark .modal-card input, .dark .modal-card select, .dark .modal-card textarea {
+      background: #17243a;
+      color: #e9e9ff;
+      border: 1px solid #334155;
+    }
+    .modal-card .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1em;
+      margin-top: 1em;
+    }
+    .modal-card button {
+      min-width: 85px;
+      min-height: 40px;
+      font-size: 1em;
+      padding: 0.2em 1.4em;
+      border-radius: 0.5em;
+      font-weight: 600;
+    }
+    .modal-card .btn-cancel {
+      background: #e5e7eb;
+      color: #22223b;
+    }
+    .dark .modal-card .btn-cancel {
+      background: #222b38;
+      color: #e9e9ff;
+    }
+    .modal-card .btn-save {
+      background: #2563eb;
+      color: #fff;
+    }
+    .modal-card .btn-save:hover {
+      background: #1d4ed8;
+    }
   </style>
 </head>
 <body class="bg-gradient-to-br from-blue-100 to-purple-200 dark:from-gray-900 dark:to-gray-800 min-h-screen py-3 sm:py-10 transition-colors duration-300">
-  <div class="main-app-layout max-w-2xl mx-auto p-6 shadow-lg rounded-2xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-    <div class="flex justify-between items-center mb-6">
+  <div class="main-app-layout p-4 shadow-lg rounded-2xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+    <div class="flex justify-between items-center mb-7">
       <h1 class="text-4xl font-extrabold flex items-center" style="font-family:Montserrat,sans-serif;">
         <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4dd.png" alt="To-Do" style="width:40px;height:40px;margin-right:10px">
         To-Do List
       </h1>
       <button id="dark-toggle" class="px-3 py-1 rounded bg-gray-200 dark:bg-gray-800 text-sm text-black dark:text-white">Toggle Dark Mode</button>
     </div>
-
-    <div class="flex flex-col sm:flex-row gap-2 mb-4 items-center">
-      <input id="task-title" type="text" placeholder="Task title" class="border border-gray-300 px-3 py-2 rounded w-full bg-white dark:bg-gray-800 text-black dark:text-white placeholder-gray-500">
-      <input id="task-date" type="date" class="border border-gray-300 px-3 py-2 rounded bg-white dark:bg-gray-800 text-black dark:text-white">
-      <select id="task-priority" class="border border-gray-300 px-3 py-2 rounded bg-white dark:bg-gray-800 text-black dark:text-white">
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-      </select>
-      <select id="task-recurring" class="border border-gray-300 px-3 py-2 rounded bg-white dark:bg-gray-800 text-black dark:text-white">
-        <option value="none">Once</option>
-        <option value="daily">Daily</option>
-        <option value="weekly">Weekly</option>
-      </select>
-      <button id="add-task"
-        class="bg-blue-600 hover:bg-blue-700 text-white px-6 rounded transition-colors duration-150"
-      >Add</button>
+    <div class="main-controls-card">
+      <div class="controls-row">
+        <input id="task-search" type="text" placeholder="Search tasks..." class="border border-gray-300 px-3 h-[44px] rounded flex-1 bg-white dark:bg-gray-800 text-black dark:text-white placeholder-gray-500 transition-colors duration-150" autocomplete="off">
+        <select id="sort-tasks" class="border border-gray-300 px-3 h-[44px] rounded w-64 bg-white dark:bg-gray-800 text-black dark:text-white">
+          <option value="added-desc" selected>Sort: Recently Added</option>
+          <option value="due-asc">Sort: Due Date ↑</option>
+          <option value="due-desc">Sort: Due Date ↓</option>
+          <option value="priority-desc">Sort: Priority (High → Low)</option>
+          <option value="priority-asc">Sort: Priority (Low → High)</option>
+          <option value="incomplete-first">Sort: Incomplete First</option>
+          <option value="complete-first">Sort: Completed First</option>
+        </select>
+      </div>
+      <div class="controls-row">
+        <select id="filter-priority" class="border px-3 h-[44px] rounded w-full bg-white dark:bg-gray-800 text-black dark:text-white">
+          <option value="all">All Priorities</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+        <input id="filter-date" type="date" class="border px-3 h-[44px] rounded w-full bg-white dark:bg-gray-800 text-black dark:text-white">
+      </div>
+      <div class="add-task-row">
+        <input id="task-title" type="text" placeholder="Task title" class="border border-gray-300 px-3 h-[44px] rounded flex-1 bg-white dark:bg-gray-800 text-black dark:text-white placeholder-gray-500">
+        <input id="task-date" type="date" class="border border-gray-300 px-3 h-[44px] rounded w-48 bg-white dark:bg-gray-800 text-black dark:text-white">
+        <select id="task-priority" class="border border-gray-300 px-3 h-[44px] rounded w-32 bg-white dark:bg-gray-800 text-black dark:text-white">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+        <select id="task-recurring" class="border border-gray-300 px-3 h-[44px] rounded w-32 bg-white dark:bg-gray-800 text-black dark:text-white">
+          <option value="none">Once</option>
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+        </select>
+        <button id="add-task" class="bg-blue-600 hover:bg-blue-700 text-white px-6 h-[44px] min-w-[64px] rounded transition-colors duration-150 flex items-center justify-center">Add</button>
+      </div>
     </div>
-
-    <div class="flex justify-between gap-2 mb-4">
-      <select id="filter-priority" class="border px-3 py-1 rounded w-1/2 bg-white dark:bg-gray-800 text-black dark:text-white">
-        <option value="all">All Priorities</option>
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-      </select>
-      <input id="filter-date" type="date" class="border px-3 py-1 rounded w-1/2 bg-white dark:bg-gray-800 text-black dark:text-white">
-    </div>
-
-    <ul id="task-list" class="space-y-3 custom-scrollbar max-h-[400px] overflow-y-auto"></ul>
+    <ul id="task-list" class="space-y-3 custom-scrollbar max-h-[400px] overflow-y-auto pr-2"></ul>
     <div id="empty-state" class="flex flex-col items-center justify-center my-12 text-center">
       <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f60a.png" alt="Relax" class="w-14 h-14 mb-3 select-none" draggable="false" />
       <div class="text-xl font-semibold mb-1 text-gray-700 dark:text-gray-300">All done!</div>
@@ -269,9 +409,8 @@
         You have no tasks left.<br>Enjoy your free time, or add something new!
       </div>
     </div>
+    <div id="edit-modal-root"></div>
   </div>
-
-  <!-- Right Sidebar -->
   <div id="right-sidebar" class="dark:bg-gray-900 dark:text-white">
     <h2 class="text-xl font-bold text-center mb-4 flex items-center justify-center" style="font-family:Montserrat,sans-serif;">
       <span style="font-size:1.4em;margin-right:7px;">&#128721;</span>
@@ -306,11 +445,9 @@
       <ul id="alarm-list" class="sidebar-alarm-list max-h-[320px] overflow-y-auto space-y-2"></ul>
     </div>
   </div>
-
   <audio id="alarm-sound" src="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg" preload="auto"></audio>
-
   <script>
-    // Alarm Drops
+    // -- Alarm Dropdowns --
     function populateDropdown(id, from, to, pad=false) {
       const sel = document.getElementById(id);
       sel.innerHTML = '';
@@ -322,7 +459,7 @@
     populateDropdown('alarm-hour', 1, 12);
     populateDropdown('alarm-minute', 0, 59, true);
 
-    // To do app js
+    // --- To-Do and Controls Logic ---
     const taskList = document.getElementById('task-list');
     const emptyState = document.getElementById('empty-state');
     const titleInput = document.getElementById('task-title');
@@ -335,9 +472,13 @@
     const filterPriority = document.getElementById('filter-priority');
     const filterDate = document.getElementById('filter-date');
     const darkToggle = document.getElementById('dark-toggle');
+    const searchInput = document.getElementById('task-search');
+    const sortSelect = document.getElementById('sort-tasks');
 
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     const notifiedTasks = new Set();
+    let searchValue = "";
+    let sortValue = "added-desc";
 
     function saveTasks() {
       localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -351,24 +492,200 @@
       }[priority] || '';
     }
 
-    // Animation helpers
+    function makeSubtask(id, text, completed) {
+      return { id, text, completed: !!completed };
+    }
+    function addSubtaskToTask(task, text) {
+      if (!task.subtasks) task.subtasks = [];
+      task.subtasks.push(makeSubtask(crypto.randomUUID(), text, false));
+      saveTasks();
+    }
+    function updateSubtask(task, subtaskId, props) {
+      if (!task.subtasks) return;
+      const idx = task.subtasks.findIndex(st => st.id === subtaskId);
+      if (idx !== -1) {
+        Object.assign(task.subtasks[idx], props);
+        saveTasks();
+      }
+    }
+    function deleteSubtask(task, subtaskId) {
+      if (!task.subtasks) return;
+      task.subtasks = task.subtasks.filter(st => st.id !== subtaskId);
+      saveTasks();
+    }
+
     function animateAddTask(li) {
-      requestAnimationFrame(() => {
-        li.classList.add('show');
-      });
+      requestAnimationFrame(() => li.classList.add('show'));
     }
     function animateRemoveTask(li, cb) {
       li.classList.remove('show');
       li.classList.add('removing');
-      setTimeout(() => {
-        cb();
-      }, 350);
+      setTimeout(() => { cb(); }, 350);
     }
     function animateEditTask(li) {
       li.classList.add('edit-highlight');
-      setTimeout(() => {
-        li.classList.remove('edit-highlight');
-      }, 700);
+      setTimeout(() => li.classList.remove('edit-highlight'), 700);
+    }
+
+    // --- Modal helpers for editing tasks and descriptions ---
+    function showEditModal(task, cb, focusDesc) {
+      const modalBg = document.createElement('div');
+      modalBg.className = 'modal-bg' + (document.documentElement.classList.contains('dark') ? ' dark' : '');
+      modalBg.tabIndex = -1;
+      modalBg.onclick = e => { if (e.target === modalBg) modalBg.remove(); };
+
+      const modalCard = document.createElement('div');
+      modalCard.className = 'modal-card' + (document.documentElement.classList.contains('dark') ? ' dark' : '');
+      modalCard.innerHTML = `
+        <div class="text-xl font-bold mb-2" style="font-family:Montserrat,sans-serif;">Edit Task</div>
+        <form>
+          <label>Title</label>
+          <input type="text" id="modal-title" value="${task.title.replace(/"/g, '&quot;')}" required>
+          <label>Due Date</label>
+          <input type="date" id="modal-date" value="${task.dueDate}">
+          <label>Priority</label>
+          <select id="modal-priority">
+            <option value="low"${task.priority==='low'?' selected':''}>Low</option>
+            <option value="medium"${task.priority==='medium'?' selected':''}>Medium</option>
+            <option value="high"${task.priority==='high'?' selected':''}>High</option>
+          </select>
+          <label>Recurring</label>
+          <select id="modal-recurring">
+            <option value="none"${task.recurring==='none'?' selected':''}>Once</option>
+            <option value="daily"${task.recurring==='daily'?' selected':''}>Daily</option>
+            <option value="weekly"${task.recurring==='weekly'?' selected':''}>Weekly</option>
+          </select>
+          <label>Description/Notes</label>
+          <textarea id="modal-desc" rows="3" style="resize:vertical;">${task.desc ? task.desc.replace(/</g, "&lt;") : ''}</textarea>
+          <label>Subtasks</label>
+          <div id="modal-subtasks-list" style="margin-bottom:0.7em;"></div>
+          <input id="modal-add-subtask-input" type="text" placeholder="Add subtask and press Enter">
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel">Cancel</button>
+            <button type="submit" class="btn-save">Save</button>
+          </div>
+        </form>
+      `;
+      const subtasks = (task.subtasks || []).map(st => ({...st}));
+      function renderModalSubtasks() {
+        const ul = document.createElement('ul');
+        ul.className = 'subtasks-list';
+        subtasks.forEach((st, i) => {
+          const li = document.createElement('li');
+          const cb = document.createElement('input');
+          cb.type = 'checkbox';
+          cb.checked = st.completed;
+          cb.onchange = () => { st.completed = cb.checked; };
+          const txt = document.createElement('span');
+          txt.textContent = st.text;
+          txt.className = st.completed ? 'subtask-completed' : '';
+          const del = document.createElement('button');
+          del.type = 'button';
+          del.innerHTML = '✕';
+          del.className = 'subtask-delete-btn';
+          del.onclick = () => { subtasks.splice(i, 1); renderModalSubtasks(); };
+          li.append(cb, txt, del);
+          ul.appendChild(li);
+        });
+        const cont = modalCard.querySelector('#modal-subtasks-list');
+        cont.innerHTML = '';
+        cont.appendChild(ul);
+      }
+      renderModalSubtasks();
+      const subtaskInput = modalCard.querySelector('#modal-add-subtask-input');
+      subtaskInput.onkeydown = (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          const val = subtaskInput.value.trim();
+          if (val.length > 0) {
+            subtasks.push(makeSubtask(crypto.randomUUID(), val, false));
+            subtaskInput.value = '';
+            renderModalSubtasks();
+          }
+        }
+      };
+      modalCard.querySelector('.btn-cancel').onclick = () => modalBg.remove();
+      modalCard.querySelector('form').onsubmit = function(e) {
+        e.preventDefault();
+        const newTitle = modalCard.querySelector('#modal-title').value.trim();
+        const newDate = modalCard.querySelector('#modal-date').value;
+        const newPriority = modalCard.querySelector('#modal-priority').value;
+        const newRecurring = modalCard.querySelector('#modal-recurring').value;
+        const newDesc = modalCard.querySelector('#modal-desc').value.trim();
+        if (!newTitle || !newDate || !newPriority) return;
+        cb({
+          ...task,
+          title: newTitle,
+          dueDate: newDate,
+          priority: newPriority,
+          recurring: newRecurring,
+          desc: newDesc,
+          subtasks: subtasks
+        });
+        modalBg.remove();
+      };
+      modalBg.appendChild(modalCard);
+      document.body.appendChild(modalBg);
+      if (focusDesc) {
+        modalCard.querySelector('#modal-desc').focus();
+      } else {
+        modalCard.querySelector('#modal-title').focus();
+      }
+    }
+
+    function showDescOnlyModal(task, cb) {
+      const modalBg = document.createElement('div');
+      modalBg.className = 'modal-bg' + (document.documentElement.classList.contains('dark') ? ' dark' : '');
+      modalBg.tabIndex = -1;
+      modalBg.onclick = e => { if (e.target === modalBg) modalBg.remove(); };
+      const modalCard = document.createElement('div');
+      modalCard.className = 'modal-card' + (document.documentElement.classList.contains('dark') ? ' dark' : '');
+      modalCard.innerHTML = `
+        <div class="text-xl font-bold mb-2" style="font-family:Montserrat,sans-serif;">Edit Description</div>
+        <form>
+          <label>Description/Notes</label>
+          <textarea id="modal-desc" rows="4" style="resize:vertical;" placeholder="Write something...">${task.desc ? task.desc.replace(/</g, "&lt;") : ''}</textarea>
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel">Cancel</button>
+            <button type="submit" class="btn-save">Save</button>
+          </div>
+        </form>
+      `;
+      modalCard.querySelector('.btn-cancel').onclick = () => modalBg.remove();
+      modalCard.querySelector('form').onsubmit = function(e) {
+        e.preventDefault();
+        const newDesc = modalCard.querySelector('#modal-desc').value.trim();
+        cb({ ...task, desc: newDesc });
+        modalBg.remove();
+      };
+      modalBg.appendChild(modalCard);
+      document.body.appendChild(modalBg);
+      modalCard.querySelector('#modal-desc').focus();
+    }
+
+    function sortTasksFn(a, b) {
+      switch (sortValue) {
+        case "due-asc":
+          return (a.dueDate || "") > (b.dueDate || "") ? 1 : (a.dueDate || "") < (b.dueDate || "") ? -1 : 0;
+        case "due-desc":
+          return (a.dueDate || "") < (b.dueDate || "") ? 1 : (a.dueDate || "") > (b.dueDate || "") ? -1 : 0;
+        case "priority-desc":
+          return priorityOrder(b.priority) - priorityOrder(a.priority);
+        case "priority-asc":
+          return priorityOrder(a.priority) - priorityOrder(b.priority);
+        case "incomplete-first":
+          return (a.completed === b.completed) ? 0 : a.completed ? 1 : -1;
+        case "complete-first":
+          return (a.completed === b.completed) ? 0 : a.completed ? -1 : 1;
+        case "added-desc":
+        default:
+          return 0;
+      }
+    }
+    function priorityOrder(p) {
+      if (p === "high") return 2;
+      if (p === "medium") return 1;
+      return 0;
     }
 
     function renderTasks(cb) {
@@ -376,12 +693,20 @@
       const filterP = filterPriority.value;
       const filterD = filterDate.value;
       const now = dayjs().startOf('day');
+      const search = searchValue.trim().toLowerCase();
 
-      // Filter tasks
-      const filteredTasks = tasks.filter(task =>
+      let filteredTasks = tasks.filter(task =>
         (filterP === 'all' || task.priority === filterP) &&
-        (!filterD || task.dueDate === filterD)
+        (!filterD || task.dueDate === filterD) &&
+        (
+          !search ||
+          task.title.toLowerCase().includes(search) ||
+          (task.desc && task.desc.toLowerCase().includes(search)) ||
+          (Array.isArray(task.subtasks) && task.subtasks.some(st => st.text.toLowerCase().includes(search)))
+        )
       );
+
+      filteredTasks = filteredTasks.slice().sort(sortTasksFn);
 
       if (filteredTasks.length === 0) {
         emptyState.classList.remove('hidden');
@@ -394,14 +719,13 @@
         let isDark = document.documentElement.classList.contains('dark');
         li.className = 'task-item flex justify-between items-start p-3 border rounded-xl shadow-sm transition-all';
 
-        // Overdue logic
         let isOverdue = false;
         if (!task.completed && task.dueDate && dayjs(task.dueDate).isBefore(now, 'day')) {
           isOverdue = true;
           li.classList.add('task-overdue');
         }
         if (task.completed && isDark) {
-          li.classList.add('task-completed-deepblue');
+          li.classList.add('task-completed-teal');
         } else if (task.completed) {
           li.classList.add('bg-green-100', 'task-completed-deepblue');
         } else {
@@ -409,15 +733,17 @@
         }
 
         const left = document.createElement('div');
-        left.className = 'flex items-center gap-3 flex-wrap';
+        left.className = 'flex flex-col gap-1 flex-1 min-w-0';
 
-        // Overdue icon in the flow!
+        const topRow = document.createElement('div');
+        topRow.className = 'flex items-center gap-3 flex-wrap min-w-0';
+
         if (isOverdue) {
           const icon = document.createElement('span');
           icon.className = 'overdue-icon';
           icon.title = 'Overdue';
           icon.innerHTML = '⚠️';
-          left.appendChild(icon);
+          topRow.appendChild(icon);
         }
 
         const checkbox = document.createElement('input');
@@ -432,9 +758,9 @@
 
         const span = document.createElement('span');
         if (task.completed) {
-          span.className = 'completed-text';
+          span.className = 'completed-text truncate';
         } else {
-          span.className = 'text-gray-800 dark:text-white';
+          span.className = 'text-gray-800 dark:text-white truncate';
         }
         span.textContent = task.title;
 
@@ -446,6 +772,84 @@
         priorityBadge.textContent = task.priority;
         priorityBadge.className = `text-xs px-2 py-1 rounded-full font-semibold ${getPriorityColor(task.priority)}`;
 
+        topRow.append(checkbox, span, dateSpan, priorityBadge);
+
+        const subtasksDiv = document.createElement('div');
+        subtasksDiv.className = '';
+        if (Array.isArray(task.subtasks) && task.subtasks.length > 0) {
+          const ul = document.createElement('ul');
+          ul.className = 'subtasks-list';
+          task.subtasks.forEach(sub => {
+            const stLi = document.createElement('li');
+            const cb = document.createElement('input');
+            cb.type = 'checkbox';
+            cb.checked = !!sub.completed;
+            cb.onchange = () => {
+              updateSubtask(task, sub.id, { completed: cb.checked });
+              renderTasks();
+            };
+            const txt = document.createElement('span');
+            txt.textContent = sub.text;
+            txt.className = sub.completed ? 'subtask-completed' : '';
+            const delBtn = document.createElement('button');
+            delBtn.type = 'button';
+            delBtn.innerHTML = '✕';
+            delBtn.className = 'subtask-delete-btn';
+            delBtn.onclick = (e) => {
+              e.stopPropagation();
+              deleteSubtask(task, sub.id);
+              renderTasks();
+            };
+            stLi.append(cb, txt, delBtn);
+            ul.appendChild(stLi);
+          });
+          subtasksDiv.appendChild(ul);
+        }
+        const addSubBtn = document.createElement('button');
+        addSubBtn.type = 'button';
+        addSubBtn.className = 'add-subtask-btn';
+        addSubBtn.textContent = '+ Add subtask';
+        addSubBtn.onclick = (e) => {
+          e.stopPropagation();
+          const txt = prompt("Enter subtask:");
+          if (txt && txt.trim().length > 0) {
+            addSubtaskToTask(task, txt.trim());
+            renderTasks();
+          }
+        };
+        subtasksDiv.appendChild(addSubBtn);
+
+        const descDiv = document.createElement('div');
+        if (task.desc && task.desc.trim() !== "") {
+          descDiv.className = 'task-desc';
+          descDiv.textContent = task.desc;
+          descDiv.title = 'Click to edit description';
+          descDiv.onclick = (e) => {
+            e.stopPropagation();
+            showDescOnlyModal(task, function(editedTask) {
+              Object.assign(task, editedTask);
+              saveTasks();
+              renderTasks();
+            });
+          };
+        } else {
+          descDiv.className = 'task-desc task-desc-empty hover:opacity-100';
+          descDiv.textContent = "too empty? write something!";
+          descDiv.title = 'Click to add a description/notes';
+          descDiv.onclick = (e) => {
+            e.stopPropagation();
+            showDescOnlyModal(task, function(editedTask) {
+              Object.assign(task, editedTask);
+              saveTasks();
+              renderTasks();
+            });
+          };
+        }
+
+        left.appendChild(topRow);
+        left.appendChild(subtasksDiv);
+        left.appendChild(descDiv);
+
         const buttonGroup = document.createElement('div');
         buttonGroup.className = 'flex flex-col gap-1 mt-2';
 
@@ -453,18 +857,11 @@
         editBtn.textContent = 'Edit';
         editBtn.className = 'bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1 rounded';
         editBtn.onclick = () => {
-          const newTitle = prompt('Edit title:', task.title);
-          const newDate = prompt('Edit due date:', task.dueDate);
-          const newPriority = prompt('Edit priority (low, medium, high):', task.priority);
-          if (newTitle && newDate && ['low', 'medium', 'high'].includes(newPriority)) {
-            task.title = newTitle;
-            task.dueDate = newDate;
-            task.priority = newPriority;
+          showEditModal(task, function(editedTask) {
+            Object.assign(task, editedTask);
             saveTasks();
-            renderTasks(() => {
-              animateEditTask(li);
-            });
-          }
+            renderTasks(() => animateEditTask(li));
+          });
         };
 
         const delBtn = document.createElement('button');
@@ -478,9 +875,21 @@
           });
         };
 
-        left.append(checkbox, span, dateSpan, priorityBadge);
         buttonGroup.append(editBtn, delBtn);
         li.append(left, buttonGroup);
+
+        if (!task.desc || task.desc.trim() === "") {
+          left.style.cursor = "pointer";
+          left.onclick = (e) => {
+            if (e.target === descDiv || e.target === topRow || e.target === left) {
+              showDescOnlyModal(task, function(editedTask) {
+                Object.assign(task, editedTask);
+                saveTasks();
+                renderTasks();
+              });
+            }
+          };
+        }
 
         taskList.appendChild(li);
         animateAddTask(li);
@@ -501,7 +910,9 @@
         dueDate,
         completed: false,
         priority,
-        recurring
+        recurring,
+        desc: "",
+        subtasks: []
       };
       tasks.push(newTask);
       titleInput.value = '';
@@ -514,24 +925,24 @@
 
     filterPriority.onchange = renderTasks;
     filterDate.onchange = renderTasks;
-
+    searchInput.addEventListener('input', function() {
+      searchValue = searchInput.value;
+      renderTasks();
+    });
+    sortSelect.addEventListener('change', function() {
+      sortValue = sortSelect.value;
+      renderTasks();
+    });
     darkToggle.onclick = () => {
       const isDark = document.documentElement.classList.toggle('dark');
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
-
       if (!isDark) {
-        setTimeout(() => {
-          alert("Light Mode? Touching grass, unc?");
-        }, 300);
-
+        setTimeout(() => alert("Light Mode? Touching grass, unc?"), 300);
         document.body.classList.add('invert');
-        setTimeout(() => {
-          document.body.classList.remove('invert');
-        }, 700);
+        setTimeout(() => document.body.classList.remove('invert'), 700);
       }
       renderTasks();
     };
-
     if (localStorage.getItem('theme') === 'dark') {
       document.documentElement.classList.add('dark');
     }
@@ -543,7 +954,6 @@
           alarmSound.play();
           notifiedTasks.add(task.id);
           alert(`Reminder: ${task.title} is due today!`);
-
           if (task.recurring === 'daily') {
             task.dueDate = dayjs(task.dueDate).add(1, 'day').format('YYYY-MM-DD');
             notifiedTasks.delete(task.id);
@@ -557,22 +967,19 @@
       saveTasks();
       renderTasks();
     }
-
     setInterval(checkAlarms, 60 * 1000);
     renderTasks();
 
-    // Right sidebar
+    // -- Right Sidebar/Alarms logic --
     function pad(num) { return num.toString().padStart(2, '0'); }
     function formatDateTimeLocal(dt) {
       if (!dt) return '';
       const date = new Date(dt);
-
       return (
         `${pad(date.getDate())}-${pad(date.getMonth() + 1)}-${date.getFullYear()} ` +
         `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`
       );
     }
-
     const alarmForm = document.getElementById('alarm-form');
     const alarmDateInput = document.getElementById('alarm-date');
     const alarmHourInput = document.getElementById('alarm-hour');
@@ -597,7 +1004,6 @@
     function saveAlarms() {
       localStorage.setItem('alarms', JSON.stringify(alarms));
     }
-
     function setAlarmEditFields(dt) {
       alarmDateInput.value = dt.toISOString().slice(0, 10);
       let hour = dt.getHours();
@@ -611,7 +1017,6 @@
       alarmMinuteInput.value = pad(dt.getMinutes());
       alarmAmPmInput.value = ampm;
     }
-
     function renderAlarms() {
       alarmListElem.innerHTML = '';
       if (alarms.length === 0) {
@@ -632,7 +1037,6 @@
             <button class="bg-red-500 hover:bg-red-600 text-white text-xs px-2 py-1 rounded delete-alarm-btn">Delete</button>
           </div>
         `;
-
         li.querySelector('.edit-alarm-btn').onclick = () => {
           const dt = new Date(alarm.datetime);
           setAlarmEditFields(dt);
@@ -641,7 +1045,6 @@
           alarmSaveBtn.textContent = "Update Alarm";
           alarmCancelBtn.classList.remove('hidden');
         };
-
         li.querySelector('.delete-alarm-btn').onclick = () => {
           alarms.splice(idx, 1);
           saveAlarms();
@@ -658,17 +1061,13 @@
       const hour = parseInt(alarmHourInput.value, 10);
       const minute = parseInt(alarmMinuteInput.value, 10);
       const ampm = alarmAmPmInput.value;
-
       if (!date) return;
-
       let hour24 = hour;
       if (ampm === 'PM' && hour24 < 12) hour24 += 12;
       if (ampm === 'AM' && hour24 === 12) hour24 = 0;
-
       const hourStr = String(hour24).padStart(2, '0');
       const minuteStr = String(minute).padStart(2, '0');
       const datetime = `${date}T${hourStr}:${minuteStr}:00`;
-
       const label = alarmLabelInput.value.trim();
       if (editingAlarmIndex !== null) {
         alarms[editingAlarmIndex] = { datetime, label };
