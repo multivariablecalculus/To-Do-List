@@ -431,7 +431,9 @@
         <input id="filter-date" type="date" class="border px-3 h-[44px] rounded w-full bg-white dark:bg-gray-800 text-black dark:text-white">
       </div>
       <div class="add-task-row">
+        <div id="add-task-warning" class="text-red-600 text-sm mt-2" style="display:none"></div>
         <input id="task-title" type="text" placeholder="Task title" class="border border-gray-300 px-3 h-[44px] rounded flex-1 bg-white dark:bg-gray-800 text-black dark:text-white placeholder-gray-500">
+        <span id="task-date-tooltip" class="text-red-600 text-xs ml-2" style="display:none;position:absolute;"></span>
         <input id="task-date" type="date" class="border border-gray-300 px-3 h-[44px] rounded w-48 bg-white dark:bg-gray-800 text-black dark:text-white">
         <select id="task-priority" class="border border-gray-300 px-3 h-[44px] rounded w-32 bg-white dark:bg-gray-800 text-black dark:text-white">
           <option value="low">Low</option>
@@ -1008,7 +1010,33 @@
       const dueDate = dateInput.value;
       const priority = priorityInput.value;
       const recurring = recurringInput.value;
-      if (!title || !dueDate || !priority) return;
+
+      // Tooltip for date field
+      const tooltip = document.getElementById('task-date-tooltip');
+      tooltip.style.display = 'none';
+
+      if (!dueDate) {
+        tooltip.textContent = "Cannot keep date field empty";
+        // Position the tooltip right below the date input
+        const inputRect = dateInput.getBoundingClientRect();
+        const parentRect = dateInput.parentElement.getBoundingClientRect();
+        tooltip.style.left = (dateInput.offsetLeft) + "px";
+        tooltip.style.top = (dateInput.offsetTop + dateInput.offsetHeight + 4) + "px";
+        tooltip.style.display = '';
+
+        setTimeout(() => { tooltip.style.display = 'none'; }, 2000);
+        // Optionally, focus the date input for user
+        dateInput.focus();
+        return;
+      }
+
+      if (!title) {
+        // Optionally, you could add a similar tooltip for title, or just use browser validation
+        titleInput.focus();
+        return;
+      }
+      if (!priority) return;
+
       const newTask = {
         id: crypto.randomUUID(),
         title,
