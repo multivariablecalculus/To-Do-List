@@ -355,6 +355,19 @@
   </style>
 </head>
 <body class="bg-gradient-to-br from-blue-100 to-purple-200 dark:from-gray-900 dark:to-gray-800 min-h-screen py-3 sm:py-10 transition-colors duration-300">
+  <!--hamburger menu-->
+  <button id="hamburger-btn" class="fixed top-4 left-4 z-50 p-2 rounded-md bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-white sm:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+  <!--slide menu-->
+  <div id="slide-menu" class="fixed top-0 left-0 h-full w-64 bg-white dark:bg-gray-900 shadow transform -translate-x-full transition-transform duration-300 z-40 sm:hidden">
+    <div class="p-4 border-b border-gray-300 dark:border-gray-700 font-semibold text-lg">Menu</div>
+    <ul class="p-4 space-y-3">
+      <li><button onclick="scrollToAlarms()" class="w-full text-left text-blue-600 dark:text-blue-400 font-medium">🔔 Alarms</button></li>
+    </ul>
+  </div>
   <div class="main-app-layout p-4 shadow-lg rounded-2xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
     <div class="flex justify-between items-center mb-7">
       <h1 class="text-4xl font-extrabold flex items-center" style="font-family:Montserrat,sans-serif;">
@@ -474,6 +487,10 @@
     const darkToggle = document.getElementById('dark-toggle');
     const searchInput = document.getElementById('task-search');
     const sortSelect = document.getElementById('sort-tasks');
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const slideMenu = document.getElementById('slide-menu');
+
+    let menuOpen = false;
 
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     const notifiedTasks = new Set();
@@ -526,6 +543,17 @@
       li.classList.add('edit-highlight');
       setTimeout(() => li.classList.remove('edit-highlight'), 700);
     }
+
+    function scrollToAlarms() {
+      document.getElementById('right-sidebar').scrollIntoView({ behavior: 'smooth' });
+      slideMenu.style.transform = 'translateX(-100%)';
+      menuOpen = false;
+    }
+
+    hamburgerBtn.onclick = () => {
+      menuOpen = !menuOpen;
+      slideMenu.style.transform = menuOpen ? 'translateX(0)' : 'translateX(-100%)';
+    };
 
     // Modal helpers
     function showEditModal(task, cb, focusDesc) {
