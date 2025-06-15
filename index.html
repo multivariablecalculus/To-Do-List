@@ -108,7 +108,6 @@
     }
     @media (max-width: 1100px) {
       #right-sidebar {
-        display: none !important;
         position: static;
         width: 100%;
         height: auto;
@@ -373,32 +372,7 @@
   <div id="mobile-alarm-sidebar" class="fixed top-0 left-0 h-full w-full max-w-xs bg-white dark:bg-gray-900 shadow transform -translate-x-full transition-transform duration-300 z-50 sm:hidden overflow-y-auto p-4">
     <button onclick="closeMobileSidebar()" class="mb-4 text-right text-gray-600 dark:text-gray-300 font-bold">✕ Close</button>
     <h2 class="text-xl font-bold mb-4">⏰ Alarms</h2>
-    <form id="mobile-alarm-form" class="mb-4">
-      <div class="flex flex-col gap-2">
-        <div>
-          <label class="block text-sm mb-1">Date & Time</label>
-          <input id="mobile-alarm-date" type="date" required class="border px-2 py-1 rounded w-full mb-2 bg-white dark:bg-gray-800 text-black dark:text-white">
-          <div class="flex gap-2">
-            <select id="mobile-alarm-hour" class="border px-2 py-1 rounded w-1/3 bg-white dark:bg-gray-800 text-black dark:text-white"></select>
-            <span class="self-center text-gray-500">:</span>
-            <select id="mobile-alarm-minute" class="border px-2 py-1 rounded w-1/3 bg-white dark:bg-gray-800 text-black dark:text-white"></select>
-            <select id="mobile-alarm-ampm" class="border px-2 py-1 rounded w-1/3 bg-white dark:bg-gray-800 text-black dark:text-white">
-              <option value="AM">AM</option>
-              <option value="PM">PM</option>
-            </select>
-          </div>
-        </div>
-        <div>
-          <label class="block text-sm mb-1">Label</label>
-          <input id="mobile-alarm-label" type="text" class="border px-2 py-1 rounded w-full bg-white dark:bg-gray-800 text-black dark:text-white" placeholder="Alarm label (optional)">
-        </div>
-        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded mt-2">Add Alarm</button>
-      </div>
-    </form>
-    <div>
-      <h3 class="text-lg font-semibold mb-2">Alarms</h3>
-      <ul id="mobile-alarm-list" class="sidebar-alarm-list max-h-[320px] overflow-y-auto space-y-2 text-sm text-gray-700 dark:text-gray-200"></ul>
-    </div>
+    <div id="mobile-alarm-placeholder" class="text-sm text-gray-500 dark:text-gray-400">[ Insert alarm UI content here manually or clone it via JS if desired ]</div>
   </div>
   <div class="main-app-layout p-4 shadow-lg rounded-2xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
     <div class="flex justify-between items-center mb-7">
@@ -521,7 +495,6 @@
     const sortSelect = document.getElementById('sort-tasks');
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const slideMenu = document.getElementById('slide-menu');
-    const mobileSidebar = document.getElementById('mobile-alarm-sidebar');
 
     let menuOpen = false;
 
@@ -582,69 +555,6 @@
       slideMenu.style.transform = 'translateX(-100%)';
       menuOpen = false;
     }
-
-    function openMobileSidebar() {
-      mobileSidebar.style.transform = 'translateX(0)';
-      slideMenu.style.transform = 'translateX(-100%)';
-      menuOpen = false;
-    }
-
-    function closeMobileSidebar() {
-      mobileSidebar.style.transform = 'translateX(-100%)';
-    }
-
-    mobileAlarmForm.onsubmit = function (e) {
-      e.preventDefault();
-      const date = document.getElementById('mobile-alarm-date').value;
-      const hour = parseInt(document.getElementById('mobile-alarm-hour').value, 10);
-      const minute = parseInt(document.getElementById('mobile-alarm-minute').value, 10);
-      const ampm = document.getElementById('mobile-alarm-ampm').value;
-      
-      let hour24 = hour;
-      if (ampm === 'PM' && hour24 < 12) hour24 += 12;
-      if (ampm === 'AM' && hour24 === 12) hour24 = 0;
-
-      const datetime = `${date}T${String(hour24).padStart(2, '0')}:${String(minute).padStart(2, '0')}:00`;
-      const label = document.getElementById('mobile-alarm-label').value.trim();
-
-      const alarms = JSON.parse(localStorage.getItem('alarms')) || [];
-      alarms.push({ datetime, label });
-      localStorage.setItem('alarms', JSON.stringify(alarms));
-      mobileAlarmForm.reset();
-      renderMobileAlarms();
-    };
-
-    function renderMobileAlarms() {
-      const alarms = JSON.parse(localStorage.getItem('alarms')) || [];
-      mobileAlarmList.innerHTML = '';
-
-      if (alarms.length === 0) {
-        mobileAlarmList.innerHTML = '<li class="text-gray-500 text-sm text-center">No alarms set.</li>';
-        return;
-      }
-
-      alarms.forEach((alarm) => {
-        const li = document.createElement('li');
-        li.className = 'p-2 rounded-lg bg-white dark:bg-gray-800 shadow border';
-        li.innerHTML = `
-          <div class="font-semibold">${alarm.label || 'Alarm'}</div>
-          <div class="text-xs text-gray-500">${alarm.datetime.replace('T', ' ')}</div>
-        `;
-        mobileAlarmList.appendChild(li);
-      });
-    }
-
-    function populateDropdown(id, from, to, pad = false) {
-      const sel = document.getElementById(id);
-      sel.innerHTML = '';
-      for (let i = from; i <= to; ++i) {
-        const val = pad ? String(i).padStart(2, '0') : String(i);
-        sel.innerHTML += `<option value="${val}">${val}</option>`;
-      }
-    }
-
-    populateDropdown('mobile-alarm-hour', 1, 12);
-    populateDropdown('mobile-alarm-minute', 0, 59, true);
 
     hamburgerBtn.onclick = () => {
       menuOpen = !menuOpen;
