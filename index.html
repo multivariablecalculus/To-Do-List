@@ -399,6 +399,7 @@
       <h3 class="text-lg font-semibold mb-2">Alarms</h3>
       <ul id="mobile-alarm-list" class="sidebar-alarm-list max-h-[320px] overflow-y-auto space-y-2 text-sm text-gray-700 dark:text-gray-200"></ul>
     </div>
+    <ul id="mobile-alarm-list"></ul>
   </div>
   <div class="main-app-layout p-4 shadow-lg rounded-2xl bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
     <div class="flex justify-between items-center mb-7">
@@ -529,6 +530,28 @@
     const notifiedTasks = new Set();
     let searchValue = "";
     let sortValue = "added-desc";
+
+    function renderMobileAlarms() {
+      const mobileAlarmListElem = document.getElementById('mobile-alarm-list');
+      if (!mobileAlarmListElem) return;
+      mobileAlarmListElem.innerHTML = '';
+      if (!alarms || alarms.length === 0) {
+        mobileAlarmListElem.innerHTML = '<li class="text-gray-500 text-sm text-center">No alarms set.</li>';
+        return;
+      }
+      alarms.forEach((alarm, idx) => {
+        const dtStr = formatDateTimeLocal(alarm.datetime);
+        const li = document.createElement('li');
+        li.className = 'flex flex-col gap-1 p-2 rounded-lg bg-white dark:bg-gray-800 shadow border mb-2';
+        li.innerHTML = `
+          <div>
+            <div class="font-semibold">${alarm.label ? alarm.label : 'Alarm'}</div>
+            <div class="text-xs text-gray-500">${dtStr}</div>
+          </div>
+        `;
+        mobileAlarmListElem.appendChild(li);
+      });
+    }
 
     function saveTasks() {
       localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -1105,6 +1128,7 @@
       if (alarms.length === 0) {
         alarmListElem.innerHTML = '<li class="text-gray-500 text-sm text-center">No alarms set.</li>';
         return;
+        renderMobileAlarms
       }
       alarms.forEach((alarm, idx) => {
         const dtStr = formatDateTimeLocal(alarm.datetime);
